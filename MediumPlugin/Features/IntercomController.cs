@@ -11,6 +11,7 @@ namespace MediumPlugin.Features
         public void StartSpawn()
         {
             RespawnManager.Singleton.ForceSpawnTeam(SpawnableTeamType.NineTailedFox);
+            --MPlugin.Instance.Config.CountSpawnMFT;
         }
 
         public bool IsRoomIntercom(Player player) => player.CurrentRoom.Type == RoomType.EzIntercom;

@@ -36,7 +36,7 @@ namespace MediumPlugin.Command.User
 
             if (!MPlugin.IntercomController.IsScientistLast())
             {
-                response = "Есть и другие роли в Комплексе. Воспользуйтесь командой, когда останется одни с монстрами";
+                response = "Есть и другие люди в Комплексе. Воспользуйтесь командой, когда останетесь одни с монстрами";
                 return false;
             }
 

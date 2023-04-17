@@ -1,5 +1,6 @@
 ﻿using CommandSystem;
 using Exiled.API.Features;
+using Exiled.API.Features.Items;
 using System;
 using UnityEngine;
 
@@ -18,18 +19,14 @@ namespace MediumPlugin.Command.Admin
         {
             var admin = Player.Get((sender as CommandSender)?.SenderId);
 
-            RaycastHit hit;
-
-            if(Physics.Raycast(admin.CameraTransform.position, admin.CameraTransform.transform.forward, out hit))
-            {
-                var target = Player.Get(hit.transform.gameObject);
+                var target = Player.Get(admin.CameraTransform.gameObject);
 
                 if(target is null)
                 {
                     response = "Игрок не обнаружен!";
                     return false;
                 }
-                
+               
                 if(MPlugin.JailController.IsJailed(target))
                 {
                     MPlugin.JailController.Release(target);
@@ -42,10 +39,6 @@ namespace MediumPlugin.Command.Admin
 
                 response = "Игрок в тюрьме";
                 return true;
-            }
-
-            response = "Игрок не обнаружен!";
-            return false;
         }
     }
 }
