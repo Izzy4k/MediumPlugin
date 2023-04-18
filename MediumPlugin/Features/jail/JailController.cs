@@ -20,7 +20,7 @@ namespace MediumPlugin.Features
 
             Snapshots[player] = new PlayerSnapshot(player);
 
-            player.ReferenceHub.roleManager.ServerSetRole(RoleTypeId.ClassD, RoleChangeReason.None);
+            player.ReferenceHub.roleManager.ServerSetRole(RoleTypeId.Tutorial, RoleChangeReason.None);
 
             player.Broadcast(6, "Поздравляю вы в тюрьме!", shouldClearPrevious: true);
         }

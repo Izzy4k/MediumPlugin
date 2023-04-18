@@ -1,6 +1,5 @@
 ﻿using CommandSystem;
 using Exiled.API.Features;
-using Exiled.API.Features.Items;
 using System;
 using UnityEngine;
 
@@ -19,26 +18,42 @@ namespace MediumPlugin.Command.Admin
         {
             var admin = Player.Get((sender as CommandSender)?.SenderId);
 
-                var target = Player.Get(admin.CameraTransform.gameObject);
+            var target = GetPlayerLookingAt(admin);
 
-                if(target is null)
-                {
-                    response = "Игрок не обнаружен!";
-                    return false;
-                }
-               
-                if(MPlugin.JailController.IsJailed(target))
-                {
-                    MPlugin.JailController.Release(target);
+            if (target is null)
+            {
+                response = "Игрок не обнаружен!";
+                return false;
+            }
 
-                    response = "Игрок освобожен";
-                    return true;
-                }
+            if (MPlugin.JailController.IsJailed(target))
+            {
+                MPlugin.JailController.Release(target);
 
-                MPlugin.JailController.Arrest(target);
-
-                response = "Игрок в тюрьме";
+                response = "Игрок освобожен";
                 return true;
+            }
+
+            MPlugin.JailController.Arrest(target);
+
+            response = "Игрок в тюрьме";
+            return true;
+        }
+
+        private Player GetPlayerLookingAt(Player player, float maxDistance = 10f)
+        {
+            RaycastHit hit;
+
+            if (Physics.Raycast(player.CameraTransform.position, player.CameraTransform.forward, out hit, maxDistance))
+            {
+                var referenceHub = hit.transform.GetComponentInParent<ReferenceHub>();
+
+                if (referenceHub is null) return null;
+
+                return Player.Get(referenceHub.gameObject);
+            }
+
+            return null;
         }
     }
 }
